@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -16,10 +17,10 @@ import org.junit.Test;
  */
 public class RSACoderTest {
 
-	private String	publicKey	= "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDQ697301PJYhgM1b2o3AsWQRlPXpBbNtbFnXEA82S2Ozpa6qXGxopBzvUOs44eM6qSYGA5bXWcM0GPziosQ3OeEPeSy2HCQuFum380lDH0XQj3V7nPkf7lHe7flfsdJlzvU8IuCCFzFZJM1YQpmLoc/vRT91z0szS+XUL5bN2brQIDAQAB";
-	private String	privateKey	= "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBANDr3vfTU8liGAzVvajcCxZBGU9ekFs21sWdcQDzZLY7OlrqpcbGikHO9Q6zjh4zqpJgYDltdZwzQY/OKixDc54Q95LLYcJC4W6bfzSUMfRdCPdXuc+R/uUd7t+V+x0mXO9Twi4IIXMVkkzVhCmYuhz+9FP3XPSzNL5dQvls3ZutAgMBAAECgYBtWwlar0MsJixwi3C68nLbMzgMU3M8S3gf+EkuNjiBKn9hF3Gumj3ENJARIetB48lk1Q2JAcKOAEZQ/5kTkjrxj9TIjynoaSBUUyxPoeTl4FVx+Rb14ZhWYEwGiBUZenOHmAPmfNm0mgFj4GLC569CMCiP/rDUCKFiBH0y+HQoAQJBAOdkKvJKiB38GxDjWBKlJd9l31uIRJgi8xM3RKJco+SbzrJZPYXna2jhFnD17JBrYIU8uGVjipsScZ2FIrAaQF8CQQDnI/CnhSQILIJw0COQcQwQTIJiVfftVcvjS9pS72rP/FYJcYw0X96xEMArq5ZElwVQzRld6I7rUUPejanrRu9zAkBch2rBDtrVmr28CB1s/0tgxR0HPjun1rn7Iiu4/XCwdzm1iggXJs6F1xShQUZDDh0/ymM2cBK6Jir2wYl4gFbjAkA4/2rb1IAzJ86uxRTQDKB98HACkdKGiy6xCUZ4RyPe0AnjYEXDsJR4s3nACxsOJPOhnkIQH0YHD04eNm7dXuuzAkBn4E013cVv3HN2ETVKoPuGptrnPWJVvJ/jq/v3QLvJP+REp0/oQkeTdLiJQl8Ysg0DG9D33OjukRH3hD2ZhZS+";
+	private String	publicKey	= "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAISDgyUft9yA+caFXlPgZAVPVvj1hjIlbj+onLlfDj/8VvX5GeD/4R1m6mVa+XY4+hjVYof8FxstfBqYvP9C/McCAwEAAQ==";
+	private String	privateKey	= "MIIBOQIBAAJBAISDgyUft9yA+caFXlPgZAVPVvj1hjIlbj+onLlfDj/8VvX5GeD/4R1m6mVa+XY4+hjVYof8FxstfBqYvP9C/McCAwEAAQJAf4PyOlIoYqc2NGP4nmwqs7VicxYJOc4tJlMB5ZvkIYsyR9x/VapIWG7idnYY81VIatKGNX6BpQ8cZXDMGf8A2QIhANX3Wb4dm6JYhCzwKnm69abUTy58yQA2MwLIJAvC1yejAiEAnovOVPir528vS37XF1MPSTdmlt0FpzAvpiFpGMT3uI0CIDuHAm+zGw6So8tA0gBl9FwCqzjavK0TZyO5/NVM0sETAiBlwXkF1CwQd621GI1X7PkslqADR4uvSB/s0hivywrqqQIgVlS5UoAu4T9XNwBkOcU2sk0YBa2cxukXISeDNdOpcC4=";
 
-	// @Before
+	//@Before
 	public void setUp() throws Exception {
 		Map<String, Object> keyMap = RSACoder.initKey();
 
@@ -30,14 +31,20 @@ public class RSACoderTest {
 	}
 
 	// @Test
-	public void test() throws Exception {
+	public void tests() throws Exception {
 		System.err.println("公钥加密——私钥解密");
 		String inputStr = "abc";
-		byte[] data = inputStr.getBytes();
+		byte[] data = inputStr.getBytes("UTF-8");
 
 		byte[] encodedData = RSACoder.encryptByPublicKey(data, publicKey);
+		String decodeS = new String(encodedData, "UTF-8");
+		System.err.println("加密后：" + decodeS);
+		System.err.println("加密后：" + encodedData);
 
-		byte[] decodedData = RSACoder.decryptByPrivateKey(encodedData, privateKey);
+		byte[] decodedData = RSACoder
+				.decryptByPrivateKey(
+						"MTUm9ldmK/OA4jfS37wGi2KWgDcr+YGPkrm/RpxAv1O9d6zVtDY6aYPCeedU1q1Xg9D4HyPUFGMIrZJHtW/4gkNxmXr+RsBMB3rNLHwxTZH4T+i4IGXDy9wTFRiWzPl54/7OIeukphYfhrKK364p/q5IsVLw7iNaYxHNkybm1+A="
+								.getBytes("UTF-8"), privateKey);
 
 		String outputStr = new String(decodedData);
 		System.err.println("加密前: " + inputStr + "\n\r" + "解密后: " + outputStr);
@@ -46,6 +53,21 @@ public class RSACoderTest {
 	}
 
 	@Test
+	public void test() throws Exception {
+		System.err.println("公钥加密——私钥解密");
+		String inputStr = "abc123";
+		byte[] data = inputStr.getBytes("UTF-8");
+		byte[] encodedData = RSACoder.encryptByPublicKey(data, publicKey);
+//		String temp = "ZmI0YmJlZGZkZDg5YmQyMzEwYjFkOTE2ZWE0MzBmOWI2NWQ3MzBiYWQ4M2Q4YWYyYTNlOWRhYTI4NTU3OGJiODZlNzExOTk1ZDgxMjg5NTcxY2YyZGY3YTMzNTk2MTI0ZTAxMTQ1NDAxZmMxMjgzMjc5OTVmZDEzNzA2YWZhYTE2MDQyYzA1Zjc0MTI5MDU3NTcxYzAwODQ4ODBmNmQzOTM2ZDliNzFjOTNjMQ==";
+//		byte[] decodedData = RSACoder.decryptByPrivateKey(Coder.decryptBASE64(temp), privateKey);
+		byte[] decodedData = RSACoder.decryptByPrivateKey(encodedData, privateKey);
+		String outputStr = new String(decodedData);
+		System.err.println("加密前: " + inputStr + "\n加密后：" + Coder.encryptBASE64(encodedData) + "\n解密后: " + outputStr);
+		assertEquals(inputStr, outputStr);
+
+	}
+
+	// @Test
 	public void testSign() throws Exception {
 		System.err.println("私钥加密——公钥解密");
 		String inputStr = "我来测试RSA加解密";

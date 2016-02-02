@@ -56,7 +56,7 @@ public class Client {
 	}
 
 	public static void main(String[] args) throws Exception {
-		System.out.println(auth(getNonce(), "test", "test"));
+		System.out.println(URLEncoder.encode(auth(getNonce(), "kispaymentforbuyer", "7q%Lur3dUA#R8HtK"), ENC));
 	}
 
 	public static String getNonce() {
