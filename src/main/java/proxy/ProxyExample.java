@@ -1,18 +1,21 @@
 package proxy;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
 public class ProxyExample {
 
-   /* public static void main(String[] args) {
+    public static void main(String[] args) {
         ProxyImage handler = new ProxyImage();
         Image image1 = (Image) handler.newProxyInstance(new RealImage("HiRes_10MB_Photo1"));
         image1.displayImage();
         Image image2 = (Image) handler.newProxyInstance(new RealImage("HiRes_10MB_Photo2"));
         image2.displayImage();
-    }*/
+    }
 
 }
 
-/*
 interface Image {
     void displayImage();
 }
@@ -67,4 +70,4 @@ class ProxyImage implements InvocationHandler {
         System.out.println("after");
     }
 
-}*/
+}
